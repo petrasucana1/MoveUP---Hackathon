@@ -1,0 +1,11 @@
+schema
+  @sdl(
+    files: [
+      "exercises/index.graphql"
+      "users/index.graphql"
+      "questionnaires/index.graphql"
+      "videos/index.graphql"
+    ]
+  ) {
+  query: Query
+}

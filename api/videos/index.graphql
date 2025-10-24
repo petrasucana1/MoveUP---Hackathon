@@ -1,0 +1,23 @@
+type Video {
+  name: String
+  videoId: String
+}
+
+type Video_name {
+  name:ID
+  value: Video
+}
+
+type Query {
+    getVideos: [Video_name]
+        @rest(
+        endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/videos.json"
+        transforms: [{pathpattern: [], editor: "objectToArray"}]
+        )
+
+  getVideosByName(ExerciseName: String!): [Video_name]
+    @rest(
+      endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/videos.json?orderBy=%22name%22&equalTo=%22$ExerciseName%22"
+      transforms: [{pathpattern: [], editor: "objectToArray"}]
+    )
+}

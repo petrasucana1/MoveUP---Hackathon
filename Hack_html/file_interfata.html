@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlexiCoach Live Streaming</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <link rel="stylesheet" href="style.css" />
+
+  <script type="module" src="scripts/firebaseConfig.js"></script>
+  <script type="module" src="scripts/auth.js"></script>
+  <script type="module" src="scripts/workout.js"></script>
+</head>
+<body>
+  <!-- Login Forum Page -->
+  <img src="images/logo.png" alt="Logo" class="logo"  id="logo"/>
+  <div class="login-title" id="login-title">
+    <i class="fas fa-dumbbell"></i> Log in to start your workout with <strong>live feedback</strong>!
+  </div>
+  <div id="login-form">
+    <div class="input-group">
+      <i class="fas fa-envelope"></i>
+      <input type="email" id="email" placeholder="Email" />
+    </div>
+    <div class="input-group">
+      <i class="fas fa-lock"></i>
+      <input type="password" id="password" placeholder="Password" />
+    </div>
+    <button id="login-button">Start Workout</button>
+    <p id="error-message" style="color: #ff5f5f; display: none; margin-top: 2%;">Wrong email or password!</p>
+  </div>
+
+  <!-- Live Exercise Page -->
+  <div class="container" id="main-ui" style="display:none;">
+    <video id="video" autoplay muted playsinline></video>
+    
+
+    <div class="exercise-info" id="exercise-info">
+        <div class="exercise-index" id="exercise-index">1</div>
+        <div class="exercise-details">
+          <div class="exercise-name" id="exercise-name">Push-ups</div>
+          <div class="exercise-meta" id="exercise-meta">Sets: 3 | Reps: 10 | Weight: 0kg</div>
+        </div>
+        <div class="exercise-actions">
+          <button class="exercise-btn" id="view-button">View</button>
+          <button class="exercise-btn-sk" id="skip-button">Skip</button>
+        </div>
+    </div>
+
+    
+    <div id="feedbackDisplay" class="feedback-display bounce" style="display: none;" >
+      <span class="feedback-close" onclick="this.parentElement.style.display='none'">×</span>
+    </div>
+
+    
+    <div class="plan-btn" id="plan-btn">PLAN</div>
+    <div class="plan-list" id="plan-list" style="display: none;"></div>
+
+  </div>
+
+  <div class="bottom-bar" id="bottom-bar" style="display:none;">
+    <div class="counter">
+      <span>REPS:</span>
+      <span id="counter-display" class="rep-badge">0</span>
+    </div>
+    
+    <button class="pause-btn" id="toggle-button">
+      <i class="fas fa-play"></i>
+    </button>
+
+    <div class="counter">
+      <span>SETS:</span>
+      <span id="counter-display2" class="rep-badge">0/0</span>
+    </div>
+    
+  </div>
+
+  <button id="skip-button" style="display: none;">Skip</button>
+ 
+  <div id="popup" class="popup">
+    <h2>Great Job!</h2>
+    <button id="next-exercise-button">Next Exercise</button>
+  </div>
+  <canvas id="confetti-canvas"></canvas>
+  
+
+  <div id="exercise-popup" class="exercise-popup">
+    <div class="popup-content">
+      <span class="close-btn" id="close-popup">&times;</span>
+      <h2>Exercise Preview</h2>
+      <p>Here is a demo video of the exercise: <strong id="popup-exercise-name"></strong>.</p>
+      <iframe id="exercise-video" width="100%" height="250" frameborder="0"
+        allowfullscreen src=""></iframe>
+    </div>
+  </div>
+  
+  <div id="intro-popup" style="
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(135deg, #1b1b3a, #2e2e54, #47296b);
+      color: white;
+      z-index: 9999;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      font-family: 'Segoe UI', sans-serif;
+      animation: fadeIn 0.5s ease;
+    ">
+      <h2 style="font-size: 2.5em; color: #ff5f5f;">⚠️ Important Notice</h2>
+      <p style="max-width: 700px; font-size: 1.2em; color: #dcdfff;">
+        For the feedback system to work correctly, please make sure you are training in a well-lit environment.<br><br>
+        The camera must fully capture the target body areas — ideally your entire body — in order to detect posture and movement accurately.
+      </p>
+      <button id="intro-ok-button" style="
+        margin-top: 30px;
+        font-size: 1.2em;
+        padding: 12px 28px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(to right, #6a11cb, #2575fc);
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+      " onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
+        OK, I Understand
+      </button>
+    </div>
+
+
+  
+</body>
+</html>

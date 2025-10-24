@@ -1,0 +1,52 @@
+type Questionnaire {
+  Days: String
+  Height: String
+  Level: String
+  Purpose: String
+  Time: String
+  UserId: String
+  Weight: String
+}
+
+type Questionnaire_userId {
+  name:ID
+  value: Questionnaire
+}
+
+type Query {
+  getQuestionnaireById(id: ID!): Questionnaire
+    @rest(
+      endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/questionnaires/$id.json"
+    )
+
+   getQuestionnaires: [Questionnaire_userId]
+    @rest(
+      endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/questionnaires.json"
+      transforms: [{pathpattern: [], editor: "objectToArray"}]
+    )
+
+  getQuestionnairesByUserId(userId: String!): [Questionnaire_userId]
+    @rest(
+      endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/questionnaires.json?orderBy=%22UserId%22&equalTo=%22$userId%22"
+      transforms: [{pathpattern: [], editor: "objectToArray"}]
+    )
+}
+
+type Mutation {
+  createQuestinnaire(Days:String!, Height:String!, Level:String!, Purpose:String!, Time:String!, UserId:String!, Weight:String! ): Questionnaire_userId
+    @rest(
+      endpoint: "https://project1---flexicoach-default-rtdb.europe-west1.firebasedatabase.app/questionnaires.json"
+      method: POST
+      postbody: """
+        { 
+          "Days": "{{.Get "Days"}}",
+          "Height": "{{.Get "Height"}}",
+          "Level" : "{{.Get "Level"}}",
+          "Purpose" : "{{.Get "Purpose"}}",
+          "Time" : "{{.Get "Time"}}",
+          "UserId" : "{{.Get "UserId"}}",
+          "Weight" : "{{.Get "Weight"}}"
+        }
+      """
+    )
+}
